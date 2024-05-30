@@ -1,0 +1,41 @@
+﻿<Window x:Class="SpaceMon.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpaceMon"
+        mc:Ignorable="d"
+        d:DataContext="{StaticResource ResourceKey=ExampleData}"
+        Title="MainWindow" BorderThickness="0" Height="50" Width="400"  WindowStyle="None"  Background="Transparent" AllowsTransparency="True" Topmost="True">
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Alt" Command="{Binding UnlockCommand}"></KeyBinding>
+    </Window.InputBindings>
+    <Window.Resources>
+        <Style TargetType="ListViewItem" x:Key="searchFieldItemContainerStyle">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <ItemsPanelTemplate x:Key="searchFieldContainerTemplate">
+            <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal" ScrollViewer.CanContentScroll="False" MaxHeight="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=ActualHeight }" />
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="searchFieldTemplate">
+            <Border BorderBrush="Wheat" Opacity="0.8" BorderThickness="1" VerticalAlignment="Bottom">
+                <Canvas  Width="15" Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight }">
+                    <Rectangle Canvas.Bottom="2" Margin="0" Width="15" Fill="{Binding color}" Opacity="0.7" Height="{Binding freeBytesHeight}" VerticalAlignment="Bottom"></Rectangle>
+
+                    <StackPanel Width="15">
+                        <TextBlock Text="{Binding driveLetter}" TextAlignment="Center" Foreground="White" Width="15" FontWeight="Black"></TextBlock>
+                        <TextBlock Text="{Binding freeBytesXXX}"  TextAlignment="Center" Foreground="Wheat" Width="15" FontSize="9"></TextBlock>
+                        <TextBlock Text="{Binding freeBytesXXXUnit}"  TextAlignment="Center" Foreground="Wheat" Width="15" FontSize="9"></TextBlock>
+                        <!--<TextBlock Text="{Binding freeBytesLog}"  TextAlignment="Center" Foreground="Wheat" Width="15"></TextBlock>-->
+                    </StackPanel>
+                </Canvas>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel IsHitTestVisible="False" >
+        <ListView VerticalContentAlignment="Bottom" BorderThickness="0" DockPanel.Dock="Right" IsHitTestVisible="False" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsPanel="{StaticResource searchFieldContainerTemplate}" ItemContainerStyle="{StaticResource searchFieldItemContainerStyle}" x:Name="listDrives"  d:ItemsSource="{Binding Path=exampleFreeSpaceData}"  ItemTemplate="{StaticResource searchFieldTemplate}" Background="{x:Null}">
+        </ListView>
+    </DockPanel>
+</Window>
